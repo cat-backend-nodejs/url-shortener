@@ -18,6 +18,12 @@
 
         .form-container {
             margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
         }
 
         .form-container input[type="text"] {
@@ -25,6 +31,7 @@
             height: 30px;
             padding: 5px;
             font-size: 14px;
+            margin-right: 10px;
         }
 
         .form-container input[type="submit"] {
@@ -37,9 +44,14 @@
             cursor: pointer;
         }
 
+        .form-container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
         table {
             border-collapse: collapse;
             width: 100%;
+            margin-top: 20px;
         }
 
         th,
@@ -52,6 +64,22 @@
         th {
             background-color: #4CAF50;
             color: white;
+        }
+
+        td form {
+            margin: 0;
+        }
+
+        button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #c0392b;
         }
     </style>
 </head>
@@ -71,22 +99,26 @@
 
     <div class="table-container">
         <table id="urlTable">
-            <tr>
-                <th>Original URL</th>
-                <th>Shortened URL</th>
-            </tr>
-            <tr>
-                <td><a href="https://github.com/cat-backend-nodejs/nodejs-roadmap">https://github.com/cat-backend-nodejs/nodejs-roadmap</a></td>
-                <td><a href="http://localhost:3000/nodejs">http://localhost:3000/nodejs</a></td>
-            </tr>
-            <tr>
-                <td><a href="https://stackoverflow.com/users/11936196/seif-el-din-sweilam">https://stackoverflow.com/users/11936196/seif-el-din-sweilam</a></td>
-                <td><a href="http://localhost:3000/stackoverflow">http://localhost:3000/stackoverflow</a></td>
-            </tr>
-            <tr>
-                <td><a href="https://drive.google.com/drive/u/1/folders/1bpiBKNBd9n0Z79wrZvHVT1KyA9OBROLx">https://drive.google.com/drive/u/1/folders/1bpiBKNBd9n0Z79wrZvHVT1KyA9OBROLx</a></td>
-                <td><a href="http://localhost:3000/himym">http://localhost:3000/himym</a></td>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Original URL</th>
+                    <th>Shortened URL</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% urls.forEach(function(url) { %>
+                    <tr>
+                        <td><a href="<%= url.longUrl %>" target="_blank"><%= url.longUrl %></a></td>
+                        <td><a href="/<%= url.alias %>" target="_blank"><%= domain %><%= url.alias %></a></td>
+                        <td>
+                            <form id="deleteUrl" method="GET" action="/<%= url._id %>/delete">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
         </table>
     </div>
 </body>

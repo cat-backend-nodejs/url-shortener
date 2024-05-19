@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
 
@@ -35,5 +36,16 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
+
+const dbUrl = "mongodb://127.0.0.1:27017/urlDB";
+
+// connect to database
+mongoose.connect(dbUrl)
+  .then(() => {
+    console.log("Connected to database");
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
 module.exports = app;

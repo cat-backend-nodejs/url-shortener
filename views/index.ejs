@@ -47,6 +47,7 @@
             padding: 8px;
             text-align: left;
             border-bottom: 1px solid #ddd;
+
         }
 
         th {
@@ -74,21 +75,40 @@
             <tr>
                 <th>Original URL</th>
                 <th>Shortened URL</th>
+                <th></th>
             </tr>
-            <tr>
-                <td><a href="https://github.com/cat-backend-nodejs/nodejs-roadmap">https://github.com/cat-backend-nodejs/nodejs-roadmap</a></td>
-                <td><a href="http://localhost:3000/nodejs">http://localhost:3000/nodejs</a></td>
-            </tr>
-            <tr>
-                <td><a href="https://stackoverflow.com/users/11936196/seif-el-din-sweilam">https://stackoverflow.com/users/11936196/seif-el-din-sweilam</a></td>
-                <td><a href="http://localhost:3000/stackoverflow">http://localhost:3000/stackoverflow</a></td>
-            </tr>
-            <tr>
-                <td><a href="https://drive.google.com/drive/u/1/folders/1bpiBKNBd9n0Z79wrZvHVT1KyA9OBROLx">https://drive.google.com/drive/u/1/folders/1bpiBKNBd9n0Z79wrZvHVT1KyA9OBROLx</a></td>
-                <td><a href="http://localhost:3000/himym">http://localhost:3000/himym</a></td>
-            </tr>
+            <% if (urls.length> 0) { %>
+                <% urls.forEach((url)=>{ %>
+                    <tr>
+                        <td><a href="<%url.long%>">
+                                <%=url.long%>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="http://localhost:3000/<%=url.alias%>">
+                                http://localhost:3000/<%=url.alias%>
+                        </td>
+                        <td><a href="#" class="delete" data-doc="<%=url._id%>">Delete</a></td>
+                    </tr>
+                    <%})%>
+                        <%}%>
         </table>
     </div>
+    <script>
+        const trashcan = document.querySelector('a.delete');
+        trashcan.addEventListener('click', (e) => {
+            if (e.target.matches('a.delete')) {
+                const endpoint = `/${trashcan.dataset.doc}`;
+
+                fetch(endpoint, {
+                    method: 'DELETE',
+                })
+                    .then(response => response.json())
+                    .then(data => window.location.href = data.redirect)
+                    .catch(err => console.log(err));
+            }
+        })
+    </script>
 </body>
 
 </html>

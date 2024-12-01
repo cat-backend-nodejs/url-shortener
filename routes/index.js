@@ -21,7 +21,7 @@ router.post('/' , (req,res,next)=>{
 
 router.get('/:alias' , async (req,res,next)=>{
     try {
-        const link = await Url.findOne({alias: "http://localhost:3000/"+ req.params.alias});
+        const link = await Url.findOne({alias: req.params.alias});
         console.log(link);
         if (link) {
             res.redirect(link.original);

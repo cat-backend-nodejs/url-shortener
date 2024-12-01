@@ -21,13 +21,14 @@ router.post('/' , (req,res,next)=>{
 
 router.get('/:alias' , async (req,res,next)=>{
     try {
-        const link = await Url.findOne({alias: req.params.alias});
+        const link = await Url.findOne({alias: "http://localhost:3000/"+ req.params.alias});
+        console.log(link);
         if (link) {
             res.redirect(link.original);
         } else {
             res.status(404).send('URL not found');
         }
-    }catch(err){
+    } catch(err){
         console.error('Error fetching URL:', err);
         res.status(500).send('Internal Server Error');
     } 
